@@ -10,11 +10,54 @@ Algorithm:
  
 Program:
 
-//type your code here
+```
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node {
+    char data;
+    struct node* next;
+};
+
+struct node* head = NULL;
+
+void insert(char value) {
+    struct node* newNode = (struct node*)malloc(sizeof(struct node));
+    newNode->data = value;
+    newNode->next = head;
+    head = newNode;
+}
+
+void search(char key) {
+    struct node* temp = head;
+    int pos = 1;
+
+    while (temp != NULL) {
+        if (temp->data == key) {
+            printf("Element '%c' found at position %d\n", key, pos);
+            return;
+        }
+        temp = temp->next;
+        pos++;
+    }
+    printf("Element '%c' not found\n", key);
+}
+
+int main() {
+    insert('A');
+    insert('B');
+    insert('C');
+
+    search('B');
+
+    return 0;
+}
+```
 
 Output:
 
-//paste your output here
+<img width="759" height="480" alt="image" src="https://github.com/user-attachments/assets/f764f5b5-cf3b-4647-9089-cf91c5d9ee75" />
+
 
 
 
@@ -33,12 +76,57 @@ Algorithm:
 4.	Call the insert function and perform other linked list operations as needed.
  
 Program:
+```
+#include <stdio.h>
+#include <stdlib.h>
 
-//type your code here
+struct node {
+    char data;
+    struct node* next;
+};
+
+struct node* head = NULL;
+
+void insert(char value) {
+    struct node* newNode = (struct node*)malloc(sizeof(struct node));
+    newNode->data = value;
+    newNode->next = NULL;
+
+    if (head == NULL) {
+        head = newNode;
+    } else {
+        struct node* temp = head;
+        while (temp->next != NULL) {
+            temp = temp->next;
+        }
+        temp->next = newNode;
+    }
+}
+
+void display() {
+    struct node* temp = head;
+    while (temp != NULL) {
+        printf("%c -> ", temp->data);
+        temp = temp->next;
+    }
+    printf("NULL\n");
+}
+
+int main() {
+    insert('A');
+    insert('B');
+    insert('C');
+
+    display();
+
+    return 0;
+}
+```
 
 Output:
 
-//paste your output here
+<img width="831" height="498" alt="image" src="https://github.com/user-attachments/assets/84a840e6-f6c2-47d4-9bf9-a3dfde139657" />
+
 
  
 Result:
@@ -57,12 +145,55 @@ Algorithm:
 4.	Move to the next node by updating the temp pointer to point to the next node (temp = temp->next).
  
 Program:
+```
+#include <stdio.h>
+#include <stdlib.h>
 
-//type your code here
+struct node {
+    int data;
+    struct node* prev;
+    struct node* next;
+};
+
+struct node* head = NULL;
+
+void insert(int value) {
+    struct node* newNode = (struct node*)malloc(sizeof(struct node));
+    newNode->data = value;
+    newNode->prev = NULL;
+    newNode->next = head;
+
+    if (head != NULL)
+        head->prev = newNode;
+
+    head = newNode;
+}
+
+void traverse() {
+    struct node* temp = head;
+
+    while (temp != NULL) {
+        printf("%d <-> ", temp->data);
+        temp = temp->next;
+    }
+    printf("NULL\n");
+}
+
+int main() {
+    insert(10);
+    insert(20);
+    insert(30);
+
+    traverse();
+
+    return 0;
+}
+```
 
 Output:
 
-//paste your output here
+<img width="721" height="551" alt="image" src="https://github.com/user-attachments/assets/25734e4a-f275-4de6-856d-e5baac27bf7f" />
+
 
 
 Result:
@@ -82,12 +213,62 @@ Algorithm:
 5.	Set the new node's prev pointer to the last node and update the last node's next pointer to the new node.
  
 Program:
+```
+#include <stdio.h>
+#include <stdlib.h>
 
-//type your code here
+struct node {
+    int data;
+    struct node* prev;
+    struct node* next;
+};
+
+struct node* head = NULL;
+
+void insertEnd(int value) {
+    struct node* newNode = (struct node*)malloc(sizeof(struct node));
+    newNode->data = value;
+    newNode->next = NULL;
+
+    if (head == NULL) {
+        newNode->prev = NULL;
+        head = newNode;
+    } else {
+        struct node* temp = head;
+        while (temp->next != NULL) {
+            temp = temp->next;
+        }
+        temp->next = newNode;
+        newNode->prev = temp;
+    }
+}
+
+void display() {
+    struct node* temp = head;
+    while (temp != NULL) {
+        printf("%d <-> ", temp->data);
+        temp = temp->next;
+    }
+    printf("NULL\n");
+}
+
+int main() {
+    insertEnd(10);
+    insertEnd(20);
+    insertEnd(30);
+
+    display();
+
+    return 0;
+}
+
+```
 
 Output:
+<img width="659" height="357" alt="image" src="https://github.com/user-attachments/assets/56bae905-9367-4808-a22d-f5a4875fae50" />
 
-//paste your output here
+
+
 
 
 Result:
@@ -97,9 +278,6 @@ Thus, the program to insert an element in doubly linked list is verified success
 
 
 EXP NO:20 C FUNCTION TO DELETE A GIVEN ELEMENT IN THE GIVEN LINKED LIST
-
-
-
 
 Aim:
 To write a C function that deletes a given element from a linked list.
@@ -124,12 +302,75 @@ o	If the element is not found in any node, print a message indicating the elemen
 
 
 Program:
+```
+#include <stdio.h>
+#include <stdlib.h>
 
-//type your code here
+struct node {
+    int data;
+    struct node* next;
+};
+
+struct node* head = NULL;
+
+void insert(int value) {
+    struct node* newNode = (struct node*)malloc(sizeof(struct node));
+    newNode->data = value;
+    newNode->next = head;
+    head = newNode;
+}
+
+void deleteElement(int key) {
+    struct node *temp = head, *prev = NULL;
+
+    if (temp != NULL && temp->data == key) {
+        head = temp->next;
+        free(temp);
+        printf("Element %d deleted\n", key);
+        return;
+    }
+
+    while (temp != NULL && temp->data != key) {
+        prev = temp;
+        temp = temp->next;
+    }
+
+    if (temp == NULL) {
+        printf("Element not found\n");
+        return;
+    }
+
+    prev->next = temp->next;
+    free(temp);
+    printf("Element %d deleted\n", key);
+}
+
+void display() {
+    struct node* temp = head;
+    while (temp != NULL) {
+        printf("%d -> ", temp->data);
+        temp = temp->next;
+    }
+    printf("NULL\n");
+}
+
+int main() {
+    insert(10);
+    insert(20);
+    insert(30);
+
+    deleteElement(20);
+
+    display();
+
+    return 0;
+}
+```
 
 Output:
 
-//paste your output here
+<img width="633" height="298" alt="image" src="https://github.com/user-attachments/assets/642180b9-4c9c-411e-b24a-757e0d7bb3cf" />
+
 
 
 
